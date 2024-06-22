@@ -1,4 +1,5 @@
 import re
+import PySimpleGUI as sg
 
 def validar_numero_telefono(numero):
     """ Valida si un número de teléfono argentino es correcto """
