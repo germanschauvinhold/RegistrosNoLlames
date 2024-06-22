@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from pathlib import Path
-from utils import contar_registros, extraer_prefijos
+from utils import contar_registros, importar_numeros_desde_archivo, extraer_prefijos
 from data_processing import buscar_telefono_en_registro, extraer_estadisticas
 from ui import mostrar_grafico, mostrar_historial, guardar_resultado, copiar_al_portapapeles
 from datetime import datetime
