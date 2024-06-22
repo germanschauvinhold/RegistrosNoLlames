@@ -6,14 +6,15 @@ from ui import mostrar_grafico, mostrar_historial, guardar_resultado, copiar_al_
 from datetime import datetime
 
 # Ruta del ícono personalizado
-icono_ruta = "c:/Users/EmaNot/Documents/RegistrosNoLlames/images/lupa.ico"
-historial_ruta = Path.home() / "Documents" / "historial_busquedas.txt"
+icono_ruta = "C:/Users/EmaNot/Documents/RegistrosNoLlames/images/lupa.ico"
+# Ruta predeterminada para el historial de búsquedas
+historial_ruta = Path("C:/Users/EmaNot/Documents/RegistrosNoLlames/output/historial_busquedas.txt")
 
 def seleccionar_archivo():
     sg.theme('DarkBlue3')
     layout = [
         [sg.Text('Seleccione el archivo CSV del Registro No Llame')],
-        [sg.Input(key='ruta_archivo'), sg.FileBrowse()],
+        [sg.Input(key='ruta_archivo'), sg.FileBrowse(initial_folder="C:/Users/EmaNot/Documents/RegistrosNoLlames/data")],
         [sg.OK(), sg.Cancel()]
     ]
     window = sg.Window('Seleccionar archivo', layout, icon=icono_ruta)
@@ -69,4 +70,26 @@ def main():
                 window_resultado = sg.Window('Resultados de Búsqueda', layout_resultado, icon=icono_ruta)
                 event_resultado, _ = window_resultado.read()
 
-                if event_resultado == 'Cop
+                if event_resultado == 'Copiar al portapapeles':
+                    copiar_al_portapapeles(resultado)
+                elif event_resultado == 'Guardar en archivo':
+                    guardar_resultado(resultado)
+                elif event_resultado == 'Mostrar Gráfico':
+                    mostrar_grafico(coincidencias, no_encontrados, no_verificados)
+                window_resultado.close()
+
+                # Guardar en el historial
+                guardar_historial(numeros_telefonos, coincidencias, no_encontrados, no_verificados)
+            else:
+                sg.popup('No se encontraron coincidencias en el registro.', icon=icono_ruta)
+        elif event == 'Importar números desde archivo':
+            numeros_importados = importar_numeros_desde_archivo()
+            if numeros_importados:
+                sg.popup('Números importados correctamente.', icon=icono_ruta)
+            window.close()
+        elif event == 'Mostrar Historial':
+            mostrar_historial(historial_ruta)
+            # Mantener la ventana principal abierta después de mostrar el historial
+
+if __name__ == '__main__':
+    main()
